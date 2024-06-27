@@ -1,1 +1,1 @@
-bucket_name = "trololol"
+bucket_name = "eumeldeumel"

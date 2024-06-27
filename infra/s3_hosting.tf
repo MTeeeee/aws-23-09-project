@@ -10,11 +10,6 @@ resource "aws_s3_bucket" "todo-app" {
 
 resource "aws_s3_bucket_public_access_block" "todo-app-bucket-policy" {
   bucket = aws_s3_bucket.todo-app.id
-
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
 }
 
 resource "aws_s3_bucket_website_configuration" "todo-app-web-config" {
@@ -54,6 +49,7 @@ resource "aws_s3_bucket_website_configuration" "todo-app-web-config" {
 resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
   bucket = aws_s3_bucket.todo-app.id
   policy = data.aws_iam_policy_document.allow_access_from_another_account.json
+  depends_on = [aws_s3_bucket_public_access_block.todo-app-bucket-policy]
 }
 
 data "aws_iam_policy_document" "allow_access_from_another_account" {
