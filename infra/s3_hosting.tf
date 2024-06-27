@@ -69,3 +69,13 @@ data "aws_iam_policy_document" "allow_access_from_another_account" {
     resources = ["${aws_s3_bucket.todo-app.arn}/*",]
   }
 }
+
+resource "aws_s3_object" "object" {
+  bucket = aws_s3_bucket.todo-app.id
+
+  for_each = fileset("../dist/", "**/*.*")
+
+  key    = each.value
+  source = "../dist/${each.value}"
+  content_type = each.value
+}
